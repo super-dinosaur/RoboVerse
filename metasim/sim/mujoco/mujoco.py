@@ -288,7 +288,6 @@ class MujocoHandler(BaseSimHandler):
         """Set root position and rotation."""
         if "pos" not in obj_state and "rot" not in obj_state:
             return
-
         if obj_name == self._robot.name:
             if not self._robot.fix_base_link:
                 root_joint = self.physics.data.joint(self._mujoco_robot_name)
@@ -303,6 +302,7 @@ class MujocoHandler(BaseSimHandler):
                 root_body_quat[:] = obj_state.get("rot", [1, 0, 0, 0])
         else:
             model_name = self.mj_objects[obj_name].model + "/"
+            #seems it stops here in lab4, motion planning. print like kinova_gen3_robotiq_2f85 stuff. weird
             try:
                 obj_joint = self.physics.data.joint(model_name)
                 obj_joint.qpos[:3] = obj_state["pos"]

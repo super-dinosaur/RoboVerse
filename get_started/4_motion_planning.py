@@ -161,7 +161,6 @@ init_states = [
 robot = scenario.robot
 *_, robot_ik = get_curobo_models(robot)
 curobo_n_dof = len(robot_ik.robot_config.cspace.joint_names)
-ic(robot_ik,type(robot_ik))
 ee_n_dof = len(robot.gripper_open_q)
 
 obs, extras = env.reset(states=init_states)
@@ -177,7 +176,6 @@ robot_joint_limits = scenario.robot.joint_limits
 for step in range(200):
     log.debug(f"Step {step}")
     states = env.handler.get_states()
-    ic(states[0])
 
     curr_robot_q = states.robots[robot.name].joint_pos.cuda()
 
