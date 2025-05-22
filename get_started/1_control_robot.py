@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import Literal
 
-try:
-    import isaacgym  # noqa: F401
-except ImportError:
-    pass
+# try:
+#     import isaacgym  # noqa: F401
+# except ImportError:
+#     pass
 
 import os
 
@@ -148,6 +148,12 @@ obs_saver.add(obs)
 
 step = 0
 robot_joint_limits = scenario.robot.joint_limits
+
+
+import json
+with open("get_started/output/robot_joint_limits.json",'w') as f:
+    json.dump(robot_joint_limits,f,indent=4)
+    print("get_started/output/robot_joint_limits.json")
 for _ in range(100):
     log.debug(f"Step {step}")
     actions = [
@@ -155,7 +161,7 @@ for _ in range(100):
             "dof_pos_target": {
                 joint_name: (
                     torch.rand(1).item() * (robot_joint_limits[joint_name][1] - robot_joint_limits[joint_name][0])
-                    + robot_joint_limits[joint_name][0]
+                    + robot_joint_limits[joint_name][0] #sort of a $$t * a + v0$$
                 )
                 for joint_name in robot_joint_limits.keys()
             }
@@ -163,7 +169,12 @@ for _ in range(100):
         for _ in range(scenario.num_envs)
     ]
     obs, reward, success, time_out, extras = env.step(actions)
+    print(f"obs:{obs},{type(obs)}")
+    print(f"reward:{reward},{type(reward)}")
+    print(f"timeout:{time_out},{type(time_out)}")
+    print(f"success:{success},{type(success)}")
     obs_saver.add(obs)
     step += 1
+    exit()
 
 obs_saver.save()

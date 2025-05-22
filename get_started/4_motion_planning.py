@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-try:
-    import isaacgym  # noqa: F401
-except ImportError:
-    pass
+# try:
+#     import isaacgym  # noqa: F401
+# except ImportError:
+#     pass
 
-import math
 import os
+import math
 from typing import Literal
+from icecream import ic
 
 import rootutils
 import torch
@@ -160,6 +161,7 @@ init_states = [
 robot = scenario.robot
 *_, robot_ik = get_curobo_models(robot)
 curobo_n_dof = len(robot_ik.robot_config.cspace.joint_names)
+ic(robot_ik,type(robot_ik))
 ee_n_dof = len(robot.gripper_open_q)
 
 obs, extras = env.reset(states=init_states)
@@ -175,6 +177,8 @@ robot_joint_limits = scenario.robot.joint_limits
 for step in range(200):
     log.debug(f"Step {step}")
     states = env.handler.get_states()
+    ic(states[0])
+
     curr_robot_q = states.robots[robot.name].joint_pos.cuda()
 
     seed_config = curr_robot_q[:, :curobo_n_dof].unsqueeze(1).tile([1, robot_ik._num_seeds, 1])
