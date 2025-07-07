@@ -95,3 +95,6 @@ id_rsa*
 
 # for curobo
 curobo
+
+# for third party
+third_party
