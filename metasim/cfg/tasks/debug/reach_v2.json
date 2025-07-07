@@ -1,0 +1,49 @@
+{
+    "franka": [
+        {
+            "init_state": {
+                "franka": {
+                    "dof_pos": {
+                        "panda_joint1": 0.0,
+                        "panda_joint2": 0.0,
+                        "panda_joint3": 0.0,
+                        "panda_joint4": -2.0,
+                        "panda_joint5": 0.0,
+                        "panda_joint6": 0.0,
+                        "panda_joint7": 0.14,
+                        "panda_finger_joint1": 0.0,
+                        "panda_finger_joint2": 0.0
+                    },
+                    "pos": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rot": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "cube": {
+                    "pos": [0.3, -0.2, 0.05],
+                    "rot": [1.0, 0.0, 0.0, 0.0]
+                },
+                "sphere": {
+                    "pos": [0.4, -0.6, 0.05],
+                    "rot": [1.0, 0.0, 0.0, 0.0]
+                },
+                "bbq_sauce": {
+                    "pos": [0.7, -0.3, 0.14],
+                    "rot": [1.0, 0.0, 0.0, 0.0]
+                },
+                "box_base": {
+                    "pos": [0.5, 0.2, 0.1],
+                    "rot": [0.0, 0.7071, 0.0, 0.7071],
+                    "dof_pos": {"box_joint": 0.0}
+                }
+            }
+        }
+    ]
+}
