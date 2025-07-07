@@ -14,6 +14,7 @@ import os
 import imageio
 import rootutils
 import torch
+import math
 import tyro
 from loguru import logger as log
 from rich.logging import RichHandler
@@ -29,6 +30,8 @@ from metasim.constants import PhysicStateType, SimType
 from metasim.utils import configclass
 from metasim.utils.setup_util import get_sim_env_class
 
+from omni.isaac.core.simulation_context import SimulationContext
+from omni.physx.scene.debug import DebugVisualization
 
 @configclass
 class Args:
@@ -42,6 +45,7 @@ class Args:
     ## Others
     num_envs: int = 1
     headless: bool = False
+    rot : tuple = (1.0, 0.0, 0.0)
 
     def __post_init__(self):
         """Post-initialization configuration."""
@@ -53,7 +57,7 @@ args = tyro.cli(Args)
 # initialize scenario
 scenario = ScenarioCfg(
     robot=args.robot,
-    try_add_table=False,
+    try_add_table=True,
     sim=args.sim,
     headless=args.headless,
     num_envs=args.num_envs,
@@ -98,6 +102,12 @@ log.info(f"Using simulator: {args.sim}")
 env_class = get_sim_env_class(SimType(args.sim))
 env = env_class(scenario)
 
+# yaw
+_rad = math.radians(30)
+_w = math.cos(_rad/2)
+z = math.sin(_rad/2)
+
+
 init_states = [
     {
         "objects": {
@@ -122,7 +132,7 @@ init_states = [
         "robots": {
             "franka": {
                 "pos": torch.tensor([0.0, 0.0, 0.0]),
-                "rot": torch.tensor([1.0, 0.0, 0.0, 0.0]),
+                "rot": torch.tensor([_w, 0.0, 0.0, z]),
                 "dof_pos": {
                     "panda_joint1": 0.0,
                     "panda_joint2": -0.785398,
